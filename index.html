@@ -1,28 +1,143 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WorkHub</title>
-    <link rel="icon" type="image/png" href="workhub.png">
-    <style>
-        
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-        
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WorkHub</title>
+  <link rel="icon" type="image/png" href="workhub.png">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: #e8f5f1;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+    iframe.ready {
+      opacity: 1;
+    }
+
+    #loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(165deg, #e8f4f1 0%, #f0f7f4 40%, #eef6f0 100%);
+      transition: opacity 0.4s ease, visibility 0.4s;
+    }
+    #loader.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .logo-box {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+      background: linear-gradient(145deg, #0f6b5c, #1a8a7a 50%, #3d9b6e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 12px 32px rgba(15, 107, 92, 0.28);
+      margin-bottom: 22px;
+      animation: float 2.2s ease-in-out infinite;
+    }
+    .logo-box img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+    }
+
+    .title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #0f6b5c;
+      margin-bottom: 6px;
+    }
+    .sub {
+      font-size: 0.9rem;
+      color: #5f7a72;
+      margin-bottom: 22px;
+    }
+
+    .progress {
+      width: 180px;
+      height: 4px;
+      background: #d4e8e2;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 30%;
+      background: linear-gradient(90deg, #1a8a7a, #5ebd9a);
+      border-radius: 99px;
+      animation: loading 1.4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    @keyframes loading {
+      0%   { transform: translateX(-120%); }
+      100% { transform: translateX(400%); }
+    }
+  </style>
 </head>
 <body>
-    <iframe src="https://script.google.com/macros/s/AKfycbyY9lbonq3_dvhxXL3MkW9XpN3IFIMppfWEdM5y6zPzFtRqSB81AyXvIHW8hlzlMQnu/exec"></iframe>
+
+ 
+  <div id="loader">
+    <div class="logo-box">
+      <img src="workhub.png" alt="WorkHub" onerror="this.style.display='none'">
+    </div>
+    <div class="title">Chào mừng bạn tới với WorkHub</div>
+    <div class="sub">Hệ thống Quản lý công việc cá nhân</div>
+    <div class="progress">
+      <div class="progress-bar"></div>
+    </div>
+  </div>
+
+
+  <iframe
+    id="appFrame"
+    src="https://script.google.com/macros/s/AKfycbyY9lbonq3_dvhxXL3MkW9XpN3IFIMppfWEdM5y6zPzFtRqSB81AyXvIHW8hlzlMQnu/exec"
+    allow="clipboard-read; clipboard-write"
+  ></iframe>
+
+  <script>
+    var frame = document.getElementById('appFrame');
+    var loader = document.getElementById('loader');
+    var shown = false;
+
+    function showApp() {
+      if (shown) return;
+      shown = true;
+      frame.classList.add('ready');
+      loader.classList.add('hide');
+    }
+
+    frame.addEventListener('load', function () {
+      
+      setTimeout(showApp, 400);
+    });
+
+    setTimeout(showApp, 12000);
+  </script>
 </body>
 </html>
